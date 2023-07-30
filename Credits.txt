@@ -1,0 +1,55 @@
+mpv by the mpv contributors (mpv.io)
+  licensed under the GPLv2+ License
+  obtained from https://sourceforge.net/projects/mpv-player-windows/files
+easympv by Jong
+  licensed under the MIT License
+  obtained from https://github.com/JongWasTaken/easympv
+youtube-dlp
+  licensed under the Unlicense License
+  obtained from https://github.com/yt-dlp/yt-dlp
+Discord Game SDK (if selected during installation)
+  unknown License
+  obtained from https://discord.com/developers/docs/game-sdk/sdk-starter-guide
+
+Scripts used:
+mpvcord (if selected during installation) by yutotakano
+  licensed under the MIT License
+  obtained from https://github.com/yutotakano/mpvcord
+
+Fonts used:
+Roboto Font by Christian Robertson,
+  licensed under the Apache License 2.0
+  obtained from https://fonts.google.com/
+Overpass Font by Delve Fonts
+  licensed under the SIL Open Font License 1.1
+  obtained from https://overpassfont.org/
+Font Awesome 6 (Free)
+  licensed under the SIL Open Font License 1.1
+  obtained from https://fontawesome.com/
+
+Shaders used:
+Anime4K by bloc97
+  licensed under the MIT License
+  obtained from https://github.com/bloc97/Anime4K
+KrigBilateral by Shiandow
+  licensed under the LGPLv3+ License
+  obtained from https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637
+SSimSuperRes by Shiandow
+  licensed under the LGPLv3+ License
+  obtained from https://gist.github.com/igv/2364ffa6e81540f29cb7ab4c9bc05b6b
+adaptive-sharpen by bacondither
+  licensed under custom License
+  obtained from https://gist.github.com/igv/8a77e4eb8276753b54bb94c1c50c317e
+FSRCNNX
+  licensed under the GPLv3+ License
+  obtained from https://github.com/igv/FSRCNN-TensorFlow
+nnedi13
+  licensed under the LGPLv3+ License
+  obtained from https://github.com/bjin/mpv-prescalers
+CRT, adapted from crt-easymode
+  licensed under the GPL License
+  obtained from https://www.reddit.com/r/mpv/comments/qet39q/is_it_possible_to_make_mpv_look_like_an_old_crt/hhvlo6g/
+
+All shaders, except Anime4K, nnedi13 and CRT, have been modified for mpv by igv.
+
+Inspired by VideoPlayerCode's scripts.
