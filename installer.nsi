@@ -52,10 +52,8 @@ Var /GLOBAL EMPVDIR
 !insertmacro MUI_PAGE_INSTFILES
 
 ; Page 7: Finish
-!define MUI_FINISHPAGE_TEXT "It is recommeded to launch mpv now for the post-install."
-!define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_TEXT "Launch now (recommended)"
-!define MUI_FINISHPAGE_RUN_FUNCTION onFinish
+!define MUI_FINISHPAGE_TEXT "mpv will now launch for the post-install.$\r$\nIf you selected $\"Register mpv as a media player$\" during installation, a powershell window will appear to complete that process.$\r$\nPlease do not close it."
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE onFinish
 !insertmacro MUI_PAGE_FINISH
 
 !insertmacro MUI_LANGUAGE "English"
@@ -95,6 +93,9 @@ Section easympv section_easympv
         nsisunz::Unzip "$pluginsdir\easympv\easympv.zip" "$pluginsdir\easympv\"
         !insertmacro MoveFolder "$pluginsdir\easympv\easympv-master\fonts" "$EMPVDIR\fonts" "*.*"
         !insertmacro MoveFolder "$pluginsdir\easympv\easympv-master\scripts\easympv" "$EMPVDIR\scripts\easympv" "*.*"
+        SetOutPath "$EMPVDIR"
+        File "uninstaller.exe"
+        DetailPrint 'Placed uninstaller.'
     end:
         DetailPrint 'easympv is installed.'
 SectionEnd
@@ -185,10 +186,14 @@ Function .onInit
 FunctionEnd
 
 Function onFinish
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\mpv" \
+                    "DisplayName" "mpv Media Player"
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\mpv" \
+                    "UninstallString" "$\"$MPVDIR\mpv.exe$\""
     FileOpen $9 "$EMPVDIR\INSTALLER_DATA_LOCATION" w
     FileWrite $9 "$MPVDIR"
     FileClose $9
-    ExecShell open '$MPVDIR\mpv.exe' ; "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    ExecShell open '$MPVDIR\mpv.exe'
 FunctionEnd
 
 Function SetFilePermission

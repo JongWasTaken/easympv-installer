@@ -6,7 +6,12 @@
         {
             "label": "Make NSIS Installer",
             "type": "shell",
-            "command": "makensis -INPUTCHARSET UTF8 ./windows.nsi && wine ./windows.exe"
+            "command": "makensis -INPUTCHARSET UTF8 ./uninstaller.nsi && makensis -INPUTCHARSET UTF8 ./installer.nsi && wine ./installer.exe"
+        },
+        {
+            "label": "Make NSIS Uninstaller",
+            "type": "shell",
+            "command": "makensis -INPUTCHARSET UTF8 ./uninstaller.nsi && wine ./uninstaller.exe"
         }
     ]
 }
