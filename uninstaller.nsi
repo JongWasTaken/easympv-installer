@@ -65,6 +65,7 @@ LangString DESC_section_plugins ${LANG_ENGLISH} "The mpv configuration directory
 
 Function .onInit
     ;InitPluginsDir
+    Sleep 10000
     StrCpy $switch_overwrite 0
     !insertmacro SetSectionFlag ${section_mpv} ${SF_RO}
     !insertmacro SetSectionFlag ${section_plugins} ${SF_RO}
