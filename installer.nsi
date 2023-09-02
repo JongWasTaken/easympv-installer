@@ -10,6 +10,7 @@ RequestExecutionLevel user
 !include "MUI2.nsh"
 !include "Sections.nsh"
 !include 'FileFunc.nsh'
+!include "LogicLib.nsh"
 !insertmacro Locate
 Var /GLOBAL switch_overwrite
 !include 'MoveFileFolder.nsh'
@@ -80,6 +81,10 @@ Section mpv section_mpv
         DetailPrint 'mpv is installed.'
 SectionEnd
 
+Section /o "Use git master of easympv" section_easympv_git
+    AddSize 0
+SectionEnd
+
 Section easympv section_easympv
     AddSize 2500
 
@@ -87,10 +92,19 @@ Section easympv section_easympv
 
     install:
         DetailPrint 'Downloading easympv...'
-        NScurl::http get "https://github.com/JongWasTaken/easympv/archive/refs/heads/master.zip" "$pluginsdir\easympv\easympv.zip" /CANCEL /INSIST /Zone.Identifier /END
-        Pop $0
-        DetailPrint "Status: $0"
-        nsisunz::Unzip "$pluginsdir\easympv\easympv.zip" "$pluginsdir\easympv\"
+        ${If} ${SectionIsSelected} ${section_easympv_git}
+            NScurl::http get "https://github.com/JongWasTaken/easympv/archive/refs/heads/master.zip" "$pluginsdir\easympv\easympv.zip" /CANCEL /INSIST /Zone.Identifier /END
+            Pop $0
+            DetailPrint "Status: $0"
+            nsisunz::Unzip "$pluginsdir\easympv\easympv.zip" "$pluginsdir\easympv\"
+            !insertmacro MoveFolder "$pluginsdir\easympv\easympv-master\.git" "$EMPVDIR\.git" "*.*"
+        ${Else}
+            NScurl::http get "https://github.com/JongWasTaken/easympv/releases/latest/download/release.zip" "$pluginsdir\easympv\easympv.zip" /CANCEL /INSIST /Zone.Identifier /END
+            Pop $0
+            DetailPrint "Status: $0"
+            nsisunz::Unzip "$pluginsdir\easympv\easympv.zip" "$pluginsdir\easympv\"
+        ${EndIf}
+
         !insertmacro MoveFolder "$pluginsdir\easympv\easympv-master\fonts" "$EMPVDIR\fonts" "*.*"
         !insertmacro MoveFolder "$pluginsdir\easympv\easympv-master\scripts\easympv" "$EMPVDIR\scripts\easympv" "*.*"
         SetOutPath "$EMPVDIR"
@@ -159,12 +173,14 @@ Section "Register mpv as a media player" section_register
 SectionEnd
 
 LangString DESC_section_mpv ${LANG_ENGLISH} "mpv itself, cannot be deselected."
+LangString DESC_section_easympv_git ${LANG_ENGLISH} "Select this to use the latest git master version of easympv instead of the stable release."
 LangString DESC_section_easympv ${LANG_ENGLISH} "easympv, cannot be deselected."
 LangString DESC_section_mpvcord ${LANG_ENGLISH} "Discord integration for mpv."
 LangString DESC_section_ytdlp ${LANG_ENGLISH} "Allows mpv to play files from the web, such as YouTube videos. Cannot be deselected."
 LangString DESC_section_register ${LANG_ENGLISH} "This will register mpv as a media player and optionally allow you to set it as the default media player."
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${section_mpv} $(DESC_section_mpv)
+    !insertmacro MUI_DESCRIPTION_TEXT ${section_easympv_git} $(DESC_section_easympv_git)
     !insertmacro MUI_DESCRIPTION_TEXT ${section_easympv} $(DESC_section_easympv)
     !insertmacro MUI_DESCRIPTION_TEXT ${section_mpvcord} $(DESC_section_mpvcord)
     !insertmacro MUI_DESCRIPTION_TEXT ${section_ytdlp} $(DESC_section_ytdlp)
@@ -177,6 +193,7 @@ Function .onInit
     StrCpy $switch_overwrite 0
     !insertmacro SetSectionFlag ${section_mpv} ${SF_RO}
     !insertmacro SetSectionFlag ${section_easympv} ${SF_RO}
+    !insertmacro SetSectionFlag ${section_easympv_git} 0
     !insertmacro SetSectionFlag ${section_ytdlp} ${SF_RO}
     StrCpy $MPVDIR "$LocalAppData\mpv"
     CreateDirectory "$MPVDIR"
