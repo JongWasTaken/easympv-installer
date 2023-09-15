@@ -30,6 +30,7 @@ UNZIP_IS_INSTALLED=0
 ZENITY_IS_INSTALLED=0
 NOTIFYSEND_IS_INSTALLED=0
 YTDLP_IS_INSTALLED=0
+TRASHCLI_IS_INSTALLED=0
 MPV_IS_INSTALLED=0
 GIT_IS_INSTALLED=0
 EMPV_IS_INSTALLED=0
@@ -39,44 +40,59 @@ INSTALL_PACKAGES_LIST=()
 INSTALL_PACKAGES=0
 
 # Check if everything is already installed
-if [[ $(type -P curl) != "" ]]; then
+which curl
+if [[ $? == 0 ]]; then
     CURL_IS_INSTALLED=1
 fi
 
-if [[ $(type -P wget) != "" ]]; then
+which wget
+if [[ $? == 0 ]]; then
     WGET_IS_INSTALLED=1
 fi
 
-if [[ $(type -P xclip) != "" ]]; then
+which xclip
+if [[ $? == 0 ]]; then
     XCLIP_IS_INSTALLED=1
 fi
 
-if [[ $(type -P wl-paste) != "" ]]; then
+which wl-paste
+if [[ $? == 0 ]]; then
     WLC_IS_INSTALLED=1
 fi
 
-if [[ $(type -P unzip) != "" ]]; then
+which unzip
+if [[ $? == 0 ]]; then
     UNZIP_IS_INSTALLED=1
 fi
 
-if [[ $(type -P notify-send) != "" ]]; then
+which notify-send
+if [[ $? == 0 ]]; then
     NOTIFYSEND_IS_INSTALLED=1
 fi
 
-if [[ $(type -P zenity) != "" ]]; then
+which zenity
+if [[ $? == 0 ]]; then
     ZENITY_IS_INSTALLED=1
 fi
 
-if [[ $(type -P yt-dlp) != "" ]]; then
+which yt-dlp
+if [[ $? == 0 ]]; then
     YTDLP_IS_INSTALLED=1
 fi
 
-if [[ $(type -P mpv) != "" ]]; then
+which mpv
+if [[ $? == 0 ]]; then
     MPV_IS_INSTALLED=1
 fi
 
-if [[ $(type -P git) != "" ]]; then
+which git
+if [[ $? == 0 ]]; then
     GIT_IS_INSTALLED=1
+fi
+
+which trash
+if [[ $? == 0 ]]; then
+    TRASHCLI_IS_INSTALLED=1
 fi
 
 if [[ -f /etc/mpv/scripts/mpris.so ]]; then
@@ -136,6 +152,11 @@ fi
 
 if [[ $GIT_IS_INSTALLED == 0 ]]; then
     INSTALL_PACKAGES_LIST+=("git")
+    INSTALL_PACKAGES=1
+fi
+
+if [[ $TRASHCLI_IS_INSTALLED == 0 ]]; then
+    INSTALL_PACKAGES_LIST+=("trash-cli")
     INSTALL_PACKAGES=1
 fi
 
